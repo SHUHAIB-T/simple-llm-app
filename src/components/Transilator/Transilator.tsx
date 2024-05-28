@@ -11,6 +11,11 @@ const model = new TogetherAI({
   apiKey: import.meta.env.VITE_TOGETHER_AI_API_KEY,
 });
 
+const prompt = PromptTemplate.fromTemplate(
+  `System: As a transilator, you are assigned a task to convert the given english sentance to the given language. User: {input}.`
+);
+const chain = prompt.pipe(model);
+
 export default function Transilator() {
   const [loading, setLoading] = useState<boolean>(false);
   const [response, setResponse] = useState<string>("");
@@ -50,10 +55,6 @@ export default function Transilator() {
     setSubmit(false)
   };
 
-  const prompt = PromptTemplate.fromTemplate(
-    `System: As a transilator, you are assigned a task to convert the given english sentance to the given language. User: {input}.`
-  );
-  const chain = prompt.pipe(model);
 
   useEffect(() => {
     (async function () {
